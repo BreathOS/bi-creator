@@ -52,10 +52,11 @@ class MainWindow(QMainWindow):
         elif not version or version.isspace():
             QMessageBox().critical(self, "Error", "Suitcase should have a version")
         else:
-            path = QFileDialog.getExistingDirectory()
+            path = QFileDialog.getSaveFileName(self, 'Save File', '',
+                                        '.json')[0]
             self.biPackage.setName(name)
             self.biPackage.setVersion(version)
-            with open(path + self.biPackage.name + '.json', 'w') as manifest:
+            with open(path + '.json', 'w') as manifest:
                 manifest.write(self.biPackage.toJson())
 
     def cancel(self):

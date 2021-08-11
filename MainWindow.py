@@ -5,6 +5,7 @@ from PyQt6 import uic
 from PyQt6.QtWidgets import QMainWindow, QLabel, QPushButton, QFileDialog, QMessageBox
 
 from BiPackage import BiPackage
+from PackageCreator import PackageCreator
 from controllers.FileController import FileController
 from controllers.FolderController import FolderController
 from Elements import Element
@@ -53,11 +54,11 @@ class MainWindow(QMainWindow):
             QMessageBox().critical(self, "Error", "Suitcase should have a version")
         else:
             path = QFileDialog.getSaveFileName(self, 'Save File', '',
-                                        '.json')[0]
+                                        '.bi')[0]
             self.biPackage.setName(name)
             self.biPackage.setVersion(version)
-            with open(path + '.json', 'w') as manifest:
-                manifest.write(self.biPackage.toJson())
+            creator = PackageCreator(self.biPackage, path)
+
 
     def cancel(self):
         self.elementType.setEnabled(False)

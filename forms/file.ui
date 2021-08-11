@@ -51,9 +51,9 @@
       </layout>
      </item>
      <item>
-      <widget class="QCheckBox" name="isRequired">
+      <widget class="QCheckBox" name="useHome">
        <property name="text">
-        <string>Required</string>
+        <string>Use home folder as root</string>
        </property>
        <property name="checked">
         <bool>true</bool>
@@ -61,9 +61,12 @@
       </widget>
      </item>
      <item>
-      <widget class="QCheckBox" name="isDeb">
+      <widget class="QCheckBox" name="isRequired">
        <property name="text">
-        <string>.deb</string>
+        <string>Required</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
        </property>
       </widget>
      </item>

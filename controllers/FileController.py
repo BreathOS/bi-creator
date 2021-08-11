@@ -18,13 +18,15 @@ class FileController(ElementController):
         self.filePath.setText(QtWidgets.QFileDialog.getOpenFileName()[0])
 
     def saveElement(self):
-        args = self.isRequired.isChecked(), self.description.text(), self.filePath.text(), self.destinationPath.text(), \
-               self.isDeb.isChecked()
+        dest = self.destinationPath.text().replace('~/', '/')
+        if dest[0] != '/':
+            dest = '/' + dest
+        args = self.isRequired.isChecked(), self.description.text(), self.filePath.text(), dest, self.useHome.isChecked()
         self.isRequired.setChecked(True)
         self.description.clear()
         self.filePath.clear()
         self.destinationPath.clear()
-        self.isDeb.setChecked(False)
+        self.useHome.setChecked(True)
         if not self.isBlank(args):
             self.newElement.emit(File(*args))
             self.close()

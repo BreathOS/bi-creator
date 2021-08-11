@@ -53,12 +53,11 @@ class MainWindow(QMainWindow):
         elif not version or version.isspace():
             QMessageBox().critical(self, "Error", "Suitcase should have a version")
         else:
-            path = QFileDialog.getSaveFileName(self, 'Save File', '',
-                                        '.bi')[0]
-            self.biPackage.setName(name)
-            self.biPackage.setVersion(version)
-            creator = PackageCreator(self.biPackage, path)
-
+            path = QFileDialog.getSaveFileName(self, 'Save File', name, '.bi')[0]
+            if path != '':
+                self.biPackage.setName(name)
+                self.biPackage.setVersion(version)
+                creator = PackageCreator(self.biPackage, path)
 
     def cancel(self):
         self.elementType.setEnabled(False)

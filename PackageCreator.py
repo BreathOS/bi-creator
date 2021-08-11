@@ -1,5 +1,5 @@
 import os
-from shutil import copy2
+from shutil import copy2, copytree
 
 from PyQt6.QtCore import QObject, pyqtSignal
 
@@ -33,6 +33,9 @@ class PackageCreator (QObject):
                 destFolder = self.path + 'cfgs/' + i.description + i.dest[:i.dest.rfind('/')]
                 os.makedirs(destFolder)
                 copy2(i.src, destFile)
+            if isinstance(i, Folder):
+                dest = self.path + 'cfgs/' + i.description + i.dest
+                copytree(i.src, dest)
 
     def writeManifset(self):
         with open(self.path + self.biPackage.name + '.json', 'w') as manifest:

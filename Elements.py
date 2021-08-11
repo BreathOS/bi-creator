@@ -13,11 +13,12 @@ class File(Element):
 
 
 class Folder(Element):
-    def __init__(self, isRequired, description, src, dest):
+    def __init__(self, isRequired, description, src, dest, useHome):
         self.src = src
         self.dest = dest
         self.isRequired = isRequired
         self.description = description
+        self.useHome = useHome
 
 
 class Package(Element):

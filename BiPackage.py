@@ -24,5 +24,10 @@ class BiPackage:
     def deleteElement(self, indx):
         del self.elements[indx]
 
+    def removeRedundantKeys(self, o):
+        keys = o.__dict__
+        keys.pop('src', None)
+        return keys
+
     def toJson(self):
-        return json.dumps(self, default=lambda o: o.__dict__, indent=4, separators=(", ", ": "), sort_keys=True)
+        return json.dumps(self, default=self.removeRedundantKeys, indent=4, separators=(", ", ": "), sort_keys=True)

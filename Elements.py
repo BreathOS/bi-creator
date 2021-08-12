@@ -22,9 +22,11 @@ class Folder(Element):
 
 
 class Package(Element):
-    def __init__(self, isRequired, name):
+    def __init__(self, isRequired, name, packageType, src):
         super().__init__(isRequired, name)
         self.name = name
+        self.packageType = packageType
+        self.src = src
 
 
 class Command(Element):

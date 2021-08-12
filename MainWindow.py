@@ -9,6 +9,7 @@ from PackageCreator import PackageCreator
 from controllers.FileController import FileController
 from controllers.FolderController import FolderController
 from Elements import Element
+from controllers.PackageController import PackageController
 
 
 class MainWindow(QMainWindow):
@@ -30,6 +31,8 @@ class MainWindow(QMainWindow):
                 self.packageElement = FileController()
             if curOption == 'Folder':
                 self.packageElement = FolderController()
+            if curOption == 'Package':
+                self.packageElement = PackageController()
         self.packageElement.newElement.connect(self.addElementGui)
         self.packageElement.show()
 

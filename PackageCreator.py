@@ -36,6 +36,11 @@ class PackageCreator (QObject):
             if isinstance(i, Folder):
                 dest = self.path + 'cfgs/' + i.description + i.dest
                 copytree(i.src, dest)
+            if isinstance(i, Package):
+                if i.packageType == 'deb':
+                    dest = self.path + 'pkgs/' + i.description
+                    copy2(i.src, dest)
+
 
     def writeManifset(self):
         with open(self.path + self.biPackage.name + '.json', 'w') as manifest:

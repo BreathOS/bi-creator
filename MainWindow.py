@@ -23,23 +23,29 @@ class MainWindow(QMainWindow):
         self.createPackageButton.clicked.connect(self.createPackage)
         self.saveChangesButton.clicked.connect(self.saveChanges)
         self.cancelButton.clicked.connect(self.cancel)
+        self.elementType.activated.connect(self.typeSelected)
+
+    def typeSelected(self):
+        curOption = self.elementType.currentText()
+        if curOption == 'Select type':
+            self.addButton.setEnabled(False)
+        else:
+            self.addButton.setEnabled(True)
 
     def addElement(self):
-        if self.packageElement is None:
-            curOption = self.elementType.currentText()
-            if curOption == 'File':
-                self.packageElement = FileController()
-            if curOption == 'Folder':
-                self.packageElement = FolderController()
-            if curOption == 'Package':
-                self.packageElement = PackageController()
+        curOption = self.elementType.currentText()
+        if curOption == 'File':
+            self.packageElement = FileController()
+        if curOption == 'Folder':
+            self.packageElement = FolderController()
+        if curOption == 'Package':
+            self.packageElement = PackageController()
         self.packageElement.newElement.connect(self.addElementGui)
         self.packageElement.show()
 
     def createPackage(self):
         self.biPackage = BiPackage()
         self.elementType.setEnabled(True)
-        self.addButton.setEnabled(True)
         self.saveChangesButton.setEnabled(True)
         self.cancelButton.setEnabled(True)
         self.createPackageButton.setEnabled(False)
@@ -70,6 +76,7 @@ class MainWindow(QMainWindow):
         self.createPackageButton.setEnabled(True)
         self.biPackageName.setEnabled(False)
         self.biPackageVersion.setEnabled(False)
+        self.elementType.setCurrentIndex(0)
 
     def uploadPackageToGui(self):
         for i in reversed(range(self.elements.count())):
@@ -87,4 +94,4 @@ class MainWindow(QMainWindow):
         self.biPackage.addElement(element)
         self.uploadPackageToGui()
         self.packageElement.newElement.disconnect()
-
+        self.elementType.setCurrentIndex(0)

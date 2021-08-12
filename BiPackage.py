@@ -14,7 +14,7 @@ class BiPackage:
 
     def addElement(self, element: Element):
         if isinstance(element, Element):
-            self.elements.append(element)
+            self.elements.append({type(element).__name__: element})
         else:
             raise TypeError()
 

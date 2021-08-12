@@ -95,7 +95,8 @@ class MainWindow(QMainWindow):
             self.elements.itemAt(i).widget().deleteLater()
         elements = self.biPackage.getElements()
         for i in range(len(elements)):
-            self.elements.addWidget(QLabel(elements[i].description), i, 0)
+            (elementType, element), = elements[i].items()
+            self.elements.addWidget(QLabel(element.description), i, 0)
             btn = QPushButton('Remove')
             btn.clicked.connect(partial(self.biPackage.deleteElement, i))
             btn.clicked.connect(self.uploadPackageToGui)

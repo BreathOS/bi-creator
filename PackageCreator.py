@@ -41,7 +41,6 @@ class PackageCreator (QObject):
                     dest = self.path + 'pkgs/' + i.description
                     copy2(i.src, dest)
 
-
     def writeManifset(self):
         with open(self.path + self.biPackage.name + '.json', 'w') as manifest:
             manifest.write(self.biPackage.toJson())

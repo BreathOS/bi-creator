@@ -8,8 +8,8 @@ from BiPackage import BiPackage
 from PackageCreator import PackageCreator
 from controllers.FileController import FileController
 from controllers.FolderController import FolderController
-from Elements import Element
 from controllers.PackageController import PackageController
+from Elements import Element
 
 
 class MainWindow(QMainWindow):

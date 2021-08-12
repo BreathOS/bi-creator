@@ -27,9 +27,3 @@ class Package(Element):
         self.name = name
         self.packageType = packageType
         self.src = src
-
-
-class Command(Element):
-    def __init__(self, isRequired, description, file):
-        super().__init__(isRequired, description)
-        self.file = file

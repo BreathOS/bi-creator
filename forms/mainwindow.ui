@@ -42,11 +42,6 @@
           </item>
           <item>
            <property name="text">
-            <string>Command</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
             <string>Package</string>
            </property>
           </item>

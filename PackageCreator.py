@@ -1,7 +1,7 @@
 import os
 from shutil import copy2, copytree, make_archive, rmtree
 
-from PyQt6.QtCore import QObject, pyqtSignal
+from PyQt6.QtCore import QObject, pyqtSignal, pyqtSlot
 
 from BiPackage import BiPackage
 from Elements import *
@@ -15,10 +15,19 @@ class PackageCreator (QObject):
         self.biPackage = biPackage
         self.path = path
 
+    @pyqtSlot()
+    def start(self):
         self.createDirs()
         self.addElements()
         self.writeManifset()
-        make_archive(path, 'zip', path)
+        self.createBi()
+        self.finished.emit()
+
+    def createBi(self):
+        path = self.path
+        if path.endswith('/'):
+            path = path[:-1]
+        make_archive(path, 'zip', self.path)
         rmtree(path)
         os.rename(path + '.zip', path + '.bi')
 

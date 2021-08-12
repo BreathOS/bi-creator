@@ -1,8 +1,8 @@
 from functools import partial
 
-import PyQt6.QtCore
-from PyQt6 import uic
-from PyQt6.QtWidgets import QMainWindow, QLabel, QPushButton, QFileDialog, QMessageBox
+from PyQt6 import uic, QtCore
+from PyQt6.QtWidgets import QMainWindow, QLabel, QPushButton, QFileDialog, QMessageBox, QWidget
+from PyQt6.QtCore import QThread, Qt, pyqtSlot
 
 from BiPackage import BiPackage
 from PackageCreator import PackageCreator
@@ -15,15 +15,18 @@ from Elements import Element
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.msg = LoadingScreen()
         uic.loadUi('forms/mainwindow.ui', self)
         self.show()
         self.packageElement = None
         self.biPackage = None
+        self.creator = None
         self.addButton.clicked.connect(self.addElement)
         self.createPackageButton.clicked.connect(self.createPackage)
         self.saveChangesButton.clicked.connect(self.saveChanges)
         self.cancelButton.clicked.connect(self.cancel)
         self.elementType.activated.connect(self.typeSelected)
+        self.worker = QThread()
 
     def typeSelected(self):
         curOption = self.elementType.currentText()
@@ -66,7 +69,16 @@ class MainWindow(QMainWindow):
             if path != '':
                 self.biPackage.setName(name)
                 self.biPackage.setVersion(version)
-                creator = PackageCreator(self.biPackage, path)
+                self.creator = PackageCreator(self.biPackage, path)
+                self.worker.started.connect(self.msg.show)
+                self.worker.finished.connect(self.creator.deleteLater)
+
+                self.worker.started.connect(self.creator.start)
+                self.creator.finished.connect(self.worker.quit)
+                self.worker.finished.connect(self.msg.close)
+                self.worker.finished.connect(self.creator.deleteLater)
+                self.creator.moveToThread(self.worker)
+                self.worker.start()
 
     def cancel(self):
         self.elementType.setEnabled(False)
@@ -89,9 +101,18 @@ class MainWindow(QMainWindow):
             btn.clicked.connect(self.uploadPackageToGui)
             self.elements.addWidget(btn, i, 1)
 
-    @PyQt6.QtCore.pyqtSlot(Element)
+    @pyqtSlot(Element)
     def addElementGui(self, element):
         self.biPackage.addElement(element)
         self.uploadPackageToGui()
         self.packageElement.newElement.disconnect()
         self.elementType.setCurrentIndex(0)
+
+
+class LoadingScreen(QWidget):
+    def __init__(self):
+        super().__init__()
+        uic.loadUi('forms/loadingscreen.ui', self)
+        self.setWindowFlags(Qt.WindowType.WindowStaysOnTopHint |
+                          Qt.WindowType.CustomizeWindowHint |
+                          Qt.WindowType.FramelessWindowHint)

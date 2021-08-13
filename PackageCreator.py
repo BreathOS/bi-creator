@@ -40,18 +40,19 @@ class PackageCreator (QObject):
 
     def addElements(self):
         for i in self.biPackage.getElements():
-            if isinstance(i, File):
-                destFile = self.path + 'cfgs/' + i.description + i.dest
-                destFolder = self.path + 'cfgs/' + i.description + i.dest[:i.dest.rfind('/')]
+            (elementType, element), = i.items()
+            if isinstance(element, File):
+                destFile = self.path + 'cfgs/' + element.description + element.dest
+                destFolder = self.path + 'cfgs/' + element.description + element.dest[:element.dest.rfind('/')]
                 os.makedirs(destFolder)
-                copy2(i.src, destFile)
-            if isinstance(i, Folder):
-                dest = self.path + 'cfgs/' + i.description + i.dest
-                copytree(i.src, dest)
-            if isinstance(i, Package):
-                if i.packageType == 'deb':
-                    dest = self.path + 'pkgs/' + i.description
-                    copy2(i.src, dest)
+                copy2(element.src, destFile)
+            if isinstance(element, Folder):
+                dest = self.path + 'cfgs/' + element.description + element.dest
+                copytree(element.src, dest)
+            if isinstance(element, Package):
+                if element.packageType == 'deb':
+                    dest = self.path + 'pkgs/' + element.description
+                    copy2(element.src, dest)
 
     def writeManifset(self):
         with open(self.path + self.biPackage.name + '.json', 'w') as manifest:

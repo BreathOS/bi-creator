@@ -42,16 +42,15 @@ class PackageCreator (QObject):
         for i in self.biPackage.getElements():
             (elementType, element), = i.items()
             if isinstance(element, File):
-                destFile = self.path + 'cfgs/' + element.description + element.dest
-                destFolder = self.path + 'cfgs/' + element.description + element.dest[:element.dest.rfind('/')]
+                destFolder = self.path + 'cfgs/' + element.description
                 os.makedirs(destFolder)
-                copy2(element.src, destFile)
+                copy2(element.src, destFolder)
             if isinstance(element, Folder):
-                dest = self.path + 'cfgs/' + element.description + element.dest
+                dest = self.path + 'cfgs/' + element.description + element.src[element.src.rfind('/'):]
                 copytree(element.src, dest)
             if isinstance(element, Package):
                 if element.packageType == 'deb':
-                    dest = self.path + 'pkgs/' + element.description
+                    dest = self.path + 'pkgs/' + element.description + '/'
                     copy2(element.src, dest)
 
     def writeManifset(self):

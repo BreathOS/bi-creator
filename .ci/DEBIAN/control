@@ -1,0 +1,10 @@
+Package: bi-creator
+Version: ${ver}
+Installed-Size: ${size}
+Maintainer: Roman Tolstosheyev <izobretatel777@mail.ru>
+Source: https://github.com/BreathOS/bi-creator
+Homepage: https://breathos.github.io/
+Depends: libc6 (>= 2.29)
+Architecture: amd64
+Priority: optional
+Description: Suitcase creator

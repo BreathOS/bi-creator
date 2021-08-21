@@ -1,0 +1,110 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-20.04, windows-2019]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+          fetch-depth: 0
+          
+      - name: Setup Python
+        uses: actions/setup-python@v2.2.2
+        with:
+          python-version: '3.7.9'
+          
+      - name: Get the version
+        id: get_version
+        shell: bash
+        run: |
+          VERSION=${GITHUB_REF/refs\/tags\//}
+          echo ::set-output name=VERSION::$VERSION
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller
+          pip install -r requirements.txt
+      
+      - name: Build Linux executable
+        if: matrix.os == 'ubuntu-20.04'
+        run: |
+          pyinstaller main.py --onefile --name bi-creator --icon=.ci/icon.ico
+          mv ${{ github.workspace }}/dist/bi-creator ${{ github.workspace }}/dist/bi-creator-linux
+          
+      - name: Build .deb package
+        if: matrix.os == 'ubuntu-20.04'
+        run: |
+        
+          pkgname="bi-creator-${{ steps.get_version.outputs.VERSION }}-amd64"
+          echo "::set-output name=pkgname::${pkgname}"
+          
+          mkdir ${pkgname}/
+          cd ${pkgname}/
+          mkdir -p usr/share/applications/  
+          cp ${{ github.workspace }}/.ci/bi-creator.desktop ./usr/share/applications/
+          mkdir -p ./usr/share/bi-creator
+          cp ${{ github.workspace }}/dist/bi-creator-linux ./usr/share/bi-creator
+          mkdir -p ./usr/share/doc/bi-creator
+          cp ${{ github.workspace }}/.ci/copyright ./usr/share/doc/bi-creator
+          mkdir -p usr/share/icons/
+          cp ${{ github.workspace }}/.ci/icon.png ./usr/share/icons/bi-creator.png
+          
+          cd ${{ github.workspace }}/${pkgname}
+          cp -r ${{ github.workspace }}/.ci/DEBIAN .
+          sudo apt install md5deep
+          md5deep -rl usr/ > ./DEBIAN/md5sums
+          cd DEBIAN
+          chmod 775 p*
+          sed -i "s/\${ver}/${{ steps.get_version.outputs.VERSION }}/" control
+          SIZE=$(du -s ../../${pkgname}/ | cut -f1)
+          sed -i "s/\${size}/${SIZE}/" control
+          
+          cd ${{ github.workspace }}/
+          fakeroot dpkg-deb --build ${pkgname}
+          
+      - name: Build Windows executable
+        if: matrix.os == 'windows-2019'
+        run: |
+          pyinstaller main.py --onefile --name bi-creator --icon=.ci/icon.ico --noconsole
+          move ${{ github.workspace }}/dist/bi-creator.exe ${{ github.workspace }}/dist/bi-creator-win.exe
+        
+      - name: Create Linux executable release
+        if: matrix.os == 'ubuntu-20.04'
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ${{ github.workspace }}/dist/bi-creator-linux
+          name: Bi Creator ${{steps.get_version.outputs.VERSION}}
+          draft: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Create .deb package release release
+        if: matrix.os == 'ubuntu-20.04'
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ${{ github.workspace }}/*.deb
+          name: Bi Creator ${{steps.get_version.outputs.VERSION}}
+          draft: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Create Windows executable release
+        if: matrix.os == 'windows-2019'
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ${{ github.workspace }}/dist/bi-creator-win.exe
+          name: Bi Creator ${{steps.get_version.outputs.VERSION}}
+          draft: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -39,7 +39,7 @@ jobs:
       - name: Build Linux executable
         if: matrix.os == 'ubuntu-20.04'
         run: |
-          pyinstaller main.py --onefile --name bi-creator
+          pyinstaller main.py --onefile --name bi-creator --icon=.ci/icon.ico
           mv ${{ github.workspace }}/dist/bi-creator ${{ github.workspace }}/dist/bi-creator-linux
           
       - name: Build .deb package
@@ -76,7 +76,7 @@ jobs:
       - name: Build Windows executable
         if: matrix.os == 'windows-2019'
         run: |
-          pyinstaller main.py --onefile --name bi-creator --noconsole
+          pyinstaller main.py --onefile --name bi-creator --icon=.ci/icon.ico --noconsole
           move ${{ github.workspace }}/dist/bi-creator.exe ${{ github.workspace }}/dist/bi-creator-win.exe
         
       - name: Create Linux executable release

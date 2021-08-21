@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Bi Creator
+Version=1.0
+Exec=bi-creator
+Comment=Suitcase Creator
+Icon=bi-creator
+Type=Application
+Terminal=false
+StartupNotify=true
+Encoding=UTF-8
+Categories=System;

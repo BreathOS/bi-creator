@@ -1,0 +1,3 @@
+#!/bin/bash -e
+ln -fs /usr/share/bi-creator/bi-creator-linux /usr/bin/bi-creator
+chmod a+x /usr/share/bi-creator/bi-creator-linux

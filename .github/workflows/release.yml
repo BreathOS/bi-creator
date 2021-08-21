@@ -7,7 +7,10 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-20.04, windows-2019]
 
     steps:
       - uses: actions/checkout@v2
@@ -18,7 +21,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v2.2.2
         with:
-          python-version: '3.7.11'
+          python-version: '3.7.9'
           
       - name: Get the version
         id: get_version
@@ -26,19 +29,40 @@ jobs:
         run: |
           VERSION=${GITHUB_REF/refs\/tags\//}
           echo ::set-output name=VERSION::$VERSION
-        
-      - name: Build package
+      
+      - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install pyinstaller
           pip install -r requirements.txt
+      
+      - name: Build Linux executable
+        if: matrix.os == 'ubuntu-20.04'
+        run: |
           pyinstaller main.py --onefile --name bi-creator
-          mv ${{ github.workspace }}/dist/bi-creator ${{ github.workspace }}/dist/bi-creator-ubuntu-20-04-focal
+          mv ${{ github.workspace }}/dist/bi-creator ${{ github.workspace }}/dist/bi-creator-linux
+          
+      - name: Build Windows executable
+        if: matrix.os == 'windows-2019'
+        run: |
+          pyinstaller main.py --onefile --name bi-creator --noconsole
+          move ${{ github.workspace }}/dist/bi-creator.exe ${{ github.workspace }}/dist/bi-creator-win.exe
         
-      - name: Create release
+      - name: Create Linux executable release
+        if: matrix.os == 'ubuntu-20.04'
         uses: softprops/action-gh-release@v1
         with:
-          files: ${{ github.workspace }}/dist/*
+          files: ${{ github.workspace }}/dist/bi-creator-linux
+          name: Bi-Creator ${{steps.get_version.outputs.VERSION}}
+          draft: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Create Windows executable release
+        if: matrix.os == 'windows-2019'
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ${{ github.workspace }}/dist/bi-creator-win.exe
           name: Bi-Creator ${{steps.get_version.outputs.VERSION}}
           draft: false
         env:

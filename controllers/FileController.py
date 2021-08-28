@@ -1,6 +1,8 @@
 import os
 
-from PyQt6 import uic, QtWidgets
+from forms.file import  Ui_AddFileMenu
+
+from PyQt6 import QtWidgets
 from PyQt6.QtWidgets import QMessageBox
 
 from Elements import File
@@ -10,18 +12,18 @@ from controllers.ElementController import ElementController
 class FileController(ElementController):
     def __init__(self):
         super().__init__()
-        uic.loadUi('forms/file.ui', self)
-        self.show()
-        self.chooseFileButton.clicked.connect(self.openFile)
-        self.cancelButton.clicked.connect(self.close)
-        self.addFile.clicked.connect(self.saveElement)
+        self.ui = Ui_AddFileMenu()
+        self.ui.setupUi(self)
+        self.ui.chooseFileButton.clicked.connect(self.openFile)
+        self.ui.cancelButton.clicked.connect(self.close)
+        self.ui.addFile.clicked.connect(self.saveElement)
 
     def openFile(self):
-        self.filePath.setText(QtWidgets.QFileDialog.getOpenFileName()[0])
+        self.ui.filePath.setText(QtWidgets.QFileDialog.getOpenFileName()[0])
 
     def saveElement(self):
-        src = self.filePath.text()
-        dest = self.destinationPath.text().replace('~/', '/')
+        src = self.ui.filePath.text()
+        dest = self.ui.destinationPath.text().replace('~/', '/')
         if not os.path.isfile(src):
             QMessageBox().critical(self, "Error! File does not exist", "File " + src + " does not exist!")
         elif dest.endswith('/'):
@@ -29,12 +31,12 @@ class FileController(ElementController):
         else:
             if len(dest) > 0 and dest[0] != '/':
                 dest = '/' + dest
-            args = self.isRequired.isChecked(), self.description.text(), src, dest, self.useHome.isChecked()
-            self.isRequired.setChecked(True)
-            self.description.clear()
-            self.filePath.clear()
-            self.destinationPath.clear()
-            self.useHome.setChecked(True)
+            args = self.ui.isRequired.isChecked(), self.ui.description.text(), src, dest, self.ui.useHome.isChecked()
+            self.ui.isRequired.setChecked(True)
+            self.ui.description.clear()
+            self.ui.filePath.clear()
+            self.ui.destinationPath.clear()
+            self.ui.useHome.setChecked(True)
             if not self.isBlank(args):
                 self.newElement.emit(File(*args))
                 self.close()

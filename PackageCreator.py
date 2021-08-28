@@ -50,7 +50,7 @@ class PackageCreator (QObject):
                 copytree(element.src, dest)
             if isinstance(element, Package):
                 if element.packageType == 'deb':
-                    dest = self.path + 'pkgs/' + element.description + '/'
+                    dest = self.path + 'pkgs/' + element.description
                     copy2(element.src, dest)
 
     def writeManifset(self):

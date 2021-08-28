@@ -40,7 +40,7 @@ jobs:
         if: matrix.os == 'ubuntu-20.04'
         run: |
           pyinstaller main.py --onefile --name bi-creator --icon=.ci/icon.ico
-          mv ${{ github.workspace }}/dist/bi-creator ${{ github.workspace }}/dist/bi-creator-linux
+          cp ${{ github.workspace }}/dist/bi-creator ${{ github.workspace }}/dist/bi-creator-linux.run
           
       - name: Build .deb package
         if: matrix.os == 'ubuntu-20.04'
@@ -54,7 +54,7 @@ jobs:
           mkdir -p usr/share/applications/  
           cp ${{ github.workspace }}/.ci/bi-creator.desktop ./usr/share/applications/
           mkdir -p ./usr/share/bi-creator
-          cp ${{ github.workspace }}/dist/bi-creator-linux ./usr/share/bi-creator
+          cp ${{ github.workspace }}/dist/bi-creator ./usr/share/bi-creator
           mkdir -p ./usr/share/doc/bi-creator
           cp ${{ github.workspace }}/.ci/copyright ./usr/share/doc/bi-creator
           mkdir -p usr/share/icons/
@@ -83,7 +83,7 @@ jobs:
         if: matrix.os == 'ubuntu-20.04'
         uses: softprops/action-gh-release@v1
         with:
-          files: ${{ github.workspace }}/dist/bi-creator-linux
+          files: ${{ github.workspace }}/dist/bi-creator-linux.run
           name: Bi Creator ${{steps.get_version.outputs.VERSION}}
           draft: false
         env:

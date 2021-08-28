@@ -26,7 +26,7 @@ class BiPackage:
 
     def removeRedundantKeys(self, o):
         keys = o.__dict__
-        keys.pop('src', None)
+        keys.pop('source', None)
         return keys
 
     def toJson(self):

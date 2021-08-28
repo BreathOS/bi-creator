@@ -1,29 +1,29 @@
 class Element:
-    def __init__(self, isRequired, description):
-        self.isRequired = isRequired
+    def __init__(self, required, description):
+        self.required = required
         self.description = description
 
 
 class File(Element):
-    def __init__(self, isRequired, description, src, dest, useHome):
-        super().__init__(isRequired, description)
-        self.src = src
-        self.dest = dest
-        self.useHome = useHome
+    def __init__(self, required, description, source, destination, usingHome):
+        super().__init__(required, description)
+        self.source = source
+        self.destination = destination
+        self.usingHome = usingHome
 
 
 class Folder(Element):
-    def __init__(self, isRequired, description, src, dest, useHome):
-        self.src = src
-        self.dest = dest
-        self.isRequired = isRequired
+    def __init__(self, required, description, source, destination, usingHome):
+        self.source = source
+        self.destination = destination
+        self.required = required
         self.description = description
-        self.useHome = useHome
+        self.usingHome = usingHome
 
 
 class Package(Element):
-    def __init__(self, isRequired, name, packageType, src):
-        super().__init__(isRequired, name)
+    def __init__(self, required, name, packageType, source):
+        super().__init__(required, name)
         self.name = name
         self.packageType = packageType
-        self.src = src
+        self.source = source

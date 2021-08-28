@@ -44,14 +44,14 @@ class PackageCreator (QObject):
             if isinstance(element, File):
                 destFolder = self.path + 'cfgs/' + element.description
                 os.makedirs(destFolder)
-                copy2(element.src, destFolder)
+                copy2(element.source, destFolder)
             if isinstance(element, Folder):
-                dest = self.path + 'cfgs/' + element.description + element.src[element.src.rfind('/'):]
-                copytree(element.src, dest)
+                dest = self.path + 'cfgs/' + element.description + element.source[element.source.rfind('/'):]
+                copytree(element.source, dest)
             if isinstance(element, Package):
                 if element.packageType == 'deb':
                     dest = self.path + 'pkgs/' + element.description
-                    copy2(element.src, dest)
+                    copy2(element.source, dest)
 
     def writeManifset(self):
         with open(self.path + self.biPackage.name + '.json', 'w') as manifest:

@@ -35,22 +35,22 @@ class PackageCreator (QObject):
         os.mkdir(self.path)
         if not self.path.endswith('/'):
             self.path += '/'
-        os.mkdir(self.path + 'pkgs')
-        os.mkdir(self.path + 'cfgs')
+        os.mkdir(self.path + 'packages')
+        os.mkdir(self.path + 'configurations')
 
     def addElements(self):
         for i in self.biPackage.getElements():
             (elementType, element), = i.items()
             if isinstance(element, File):
-                destFolder = self.path + 'cfgs/' + element.description
+                destFolder = self.path + 'configurations/' + element.description
                 os.makedirs(destFolder)
                 copy2(element.source, destFolder)
             if isinstance(element, Folder):
-                dest = self.path + 'cfgs/' + element.description + element.source[element.source.rfind('/'):]
+                dest = self.path + 'configurations/' + element.description + element.source[element.source.rfind('/'):]
                 copytree(element.source, dest)
             if isinstance(element, Package):
                 if element.packageType == 'deb':
-                    dest = self.path + 'pkgs/' + element.description
+                    dest = self.path + 'packages/' + element.description
                     copy2(element.source, dest)
 
     def writeManifset(self):

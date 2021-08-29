@@ -80,10 +80,14 @@ class MainWindow(QMainWindow):
                 self.creator.finished.connect(self.worker.quit)
                 self.worker.finished.connect(self.msg.close)
                 self.worker.finished.connect(self.creator.deleteLater)
+                self.worker.finished.connect(self.clear)
                 self.creator.moveToThread(self.worker)
                 self.worker.start()
 
     def cancel(self):
+        self.clear()
+
+    def clear(self):
         self.ui.elementType.setEnabled(False)
         self.ui.addButton.setEnabled(False)
         self.ui.saveChangesButton.setEnabled(False)
@@ -92,6 +96,11 @@ class MainWindow(QMainWindow):
         self.ui.biPackageName.setEnabled(False)
         self.ui.biPackageVersion.setEnabled(False)
         self.ui.elementType.setCurrentIndex(0)
+        for i in reversed(range(self.ui.elements.count())):
+            self.ui.elements.itemAt(i).widget().deleteLater()
+        self.biPackage.deleteAllElements()
+        self.ui.biPackageVersion.clear()
+        self.ui.biPackageName.clear()
 
     def uploadPackageToGui(self):
         for i in reversed(range(self.ui.elements.count())):

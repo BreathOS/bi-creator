@@ -21,6 +21,9 @@ class BiPackage:
     def getElements(self):
         return self.elements
 
+    def deleteAllElements(selfs):
+        selfs.elements.clear()
+
     def deleteElement(self, indx):
         del self.elements[indx]
 

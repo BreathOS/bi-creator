@@ -54,7 +54,7 @@ jobs:
           mkdir -p usr/share/applications/  
           cp ${{ github.workspace }}/.ci/bi-creator.desktop ./usr/share/applications/
           mkdir -p ./usr/share/bi-creator
-          cp ${{ github.workspace }}/dist/bi-creator-linux ./usr/share/bi-creator
+          cp ${{ github.workspace }}/dist/bi-creator ./usr/share/bi-creator
           mkdir -p ./usr/share/doc/bi-creator
           cp ${{ github.workspace }}/.ci/copyright ./usr/share/doc/bi-creator
           mkdir -p usr/share/icons/

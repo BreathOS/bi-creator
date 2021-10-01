@@ -24,14 +24,15 @@ class FileController(ElementController):
     def saveElement(self):
         src = self.ui.filePath.text()
         dest = self.ui.destinationPath.text().replace('~/', '/')
+        fileName = src[src.rfind('/') + 1:]
+        if not dest.endswith('/'):
+            dest += '/'
         if not os.path.isfile(src):
             QMessageBox().critical(self, "Error! File does not exist", "File " + src + " does not exist!")
-        elif dest.endswith('/'):
-            QMessageBox().critical(self, "Error! File does not exist", "Destination should not be a folder")
         else:
             if len(dest) > 0 and dest[0] != '/':
                 dest = '/' + dest
-            args = self.ui.isRequired.isChecked(), self.ui.description.text(), src, dest, self.ui.useHome.isChecked()
+            args = self.ui.isRequired.isChecked(), self.ui.description.text(), src, dest, self.ui.useHome.isChecked(), fileName
             self.ui.isRequired.setChecked(True)
             self.ui.description.clear()
             self.ui.filePath.clear()

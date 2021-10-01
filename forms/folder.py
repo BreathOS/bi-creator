@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'folder.ui'
+# Form implementation generated from reading ui file 'forms/folder.ui'
 #
 # Created by: PyQt6 UI code generator 6.1.1
 #
@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_AddFolderMenu(object):
     def setupUi(self, AddFolderMenu):
         AddFolderMenu.setObjectName("AddFolderMenu")
-        AddFolderMenu.resize(400, 216)
+        AddFolderMenu.resize(400, 218)
         self.gridLayout = QtWidgets.QGridLayout(AddFolderMenu)
         self.gridLayout.setObjectName("gridLayout")
         self.verticalLayout = QtWidgets.QVBoxLayout()
@@ -64,19 +64,9 @@ class Ui_AddFolderMenu(object):
         _translate = QtCore.QCoreApplication.translate
         AddFolderMenu.setWindowTitle(_translate("AddFolderMenu", "Add folder"))
         self.chooseFolderButton.setText(_translate("AddFolderMenu", "Choose folder"))
-        self.label_2.setText(_translate("AddFolderMenu", "Install to:"))
+        self.label_2.setText(_translate("AddFolderMenu", "Place to:"))
         self.label_4.setText(_translate("AddFolderMenu", "Description"))
         self.useHome.setText(_translate("AddFolderMenu", "Use home folder as root"))
         self.isRequired.setText(_translate("AddFolderMenu", "Required"))
         self.cancelButton.setText(_translate("AddFolderMenu", "Cancel"))
         self.addFolder.setText(_translate("AddFolderMenu", "Add"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    AddFolderMenu = QtWidgets.QWidget()
-    ui = Ui_AddFolderMenu()
-    ui.setupUi(AddFolderMenu)
-    AddFolderMenu.show()
-    sys.exit(app.exec())

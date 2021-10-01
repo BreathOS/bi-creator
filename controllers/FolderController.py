@@ -22,12 +22,17 @@ class FolderController(ElementController):
     def saveElement(self):
         src = self.ui.folderPath.text()
         dest = self.ui.destinationPath.text().replace('~/', '/')
+        if src.endswith('/'):
+            src = src[:-1]
+        folderName = src[src.rfind('/') + 1:]
+        if not dest.endswith('/'):
+            dest += '/'
         if not os.path.isdir(src):
-            QMessageBox().critical(self, "Error! File does not exist", "Folder " + src + " does not exist!")
+            QMessageBox().critical(self, "Error! Folder does not exist", "Folder " + src + " does not exist!")
         else:
             if len(dest) > 0 and dest[0] != '/':
                 dest = '/' + dest
-            args = self.ui.isRequired.isChecked(), self.ui.description.text(), src, dest, self.ui.useHome.isChecked()
+            args = self.ui.isRequired.isChecked(), self.ui.description.text(), src, dest, self.ui.useHome.isChecked(), folderName
             self.ui.isRequired.setChecked(True)
             self.ui.description.clear()
             self.ui.folderPath.clear()

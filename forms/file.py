@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'file.ui'
+# Form implementation generated from reading ui file 'forms/file.ui'
 #
 # Created by: PyQt6 UI code generator 6.1.1
 #
@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_AddFileMenu(object):
     def setupUi(self, AddFileMenu):
         AddFileMenu.setObjectName("AddFileMenu")
-        AddFileMenu.resize(453, 216)
+        AddFileMenu.resize(453, 218)
         self.gridLayout = QtWidgets.QGridLayout(AddFileMenu)
         self.gridLayout.setObjectName("gridLayout")
         self.verticalLayout = QtWidgets.QVBoxLayout()
@@ -64,19 +64,9 @@ class Ui_AddFileMenu(object):
         _translate = QtCore.QCoreApplication.translate
         AddFileMenu.setWindowTitle(_translate("AddFileMenu", "Add file"))
         self.chooseFileButton.setText(_translate("AddFileMenu", "Choose file"))
-        self.label_2.setText(_translate("AddFileMenu", "Destination file"))
+        self.label_2.setText(_translate("AddFileMenu", "Place to"))
         self.label_4.setText(_translate("AddFileMenu", "Description"))
         self.useHome.setText(_translate("AddFileMenu", "Use home folder as root"))
         self.isRequired.setText(_translate("AddFileMenu", "Required"))
         self.cancelButton.setText(_translate("AddFileMenu", "Cancel"))
         self.addFile.setText(_translate("AddFileMenu", "Add"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    AddFileMenu = QtWidgets.QWidget()
-    ui = Ui_AddFileMenu()
-    ui.setupUi(AddFileMenu)
-    AddFileMenu.show()
-    sys.exit(app.exec())

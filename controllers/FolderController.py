@@ -28,7 +28,7 @@ class FolderController(ElementController):
         if not dest.endswith('/'):
             dest += '/'
         if not os.path.isdir(src):
-            QMessageBox().critical(self, "Error! File does not exist", "Folder " + src + " does not exist!")
+            QMessageBox().critical(self, "Error! Folder does not exist", "Folder " + src + " does not exist!")
         else:
             if len(dest) > 0 and dest[0] != '/':
                 dest = '/' + dest

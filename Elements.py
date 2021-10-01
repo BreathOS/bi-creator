@@ -5,11 +5,12 @@ class Element:
 
 
 class File(Element):
-    def __init__(self, required, description, source, destination, usingHome):
+    def __init__(self, required, description, source, destination, usingHome, fileName):
         super().__init__(required, description)
         self.source = source
         self.destination = destination
         self.usingHome = usingHome
+        self.fileName = fileName
 
 
 class Folder(Element):

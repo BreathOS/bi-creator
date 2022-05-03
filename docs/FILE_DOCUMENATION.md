@@ -1,5 +1,6 @@
 # Adding files
 ![](file-menu.png)
+
 There are three main fields that you have:
 - **Target file path (source)** - file that should be added to suitcase.
 You can choose it in menu after pressing **Choice file** button. 

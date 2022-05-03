@@ -36,5 +36,7 @@ You can share ready bi-file with others!
 
 ## Download and installation
 All releases are available [there](https://github.com/BreathOS/bi-creator/releases).
+
 For Windows, you can use .exe
+
 For Linux: .deb (Ubuntu) or [AppImage](https://appimage.org/) version .run (for others)

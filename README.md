@@ -27,9 +27,9 @@ Firstly, press *Create suitcase* button. Then, you can specify name and version 
 You can add and remove components (packages, files) of that suitcase using corresponding buttons.
 
 More documentation for each type:
-- ![How to add package]()
-- ![How to add a file]()
-- ![How to add a folder]()
+- ![How to add package](docs/PACKAGE_DOCUMENTATION.md)
+- ![How to add a file](docs/FILE_DOCUMENATION.md)
+- ![How to add a folder](docs/FOLDER_DOCUMENTATION.md)
 
 Finally, press *Save* button and wait for process completion. 
 You can share ready bi-file with others!
